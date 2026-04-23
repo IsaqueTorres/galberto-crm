@@ -1,8 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "../modules/auth/components/protected-route";
 import { useAuth } from "../modules/auth/use-auth";
+import { CustomerDetailPage } from "../pages/customer-detail-page";
+import { CustomersPage } from "../pages/customers-page";
 import { DashboardPage } from "../pages/dashboard-page";
 import { LoginPage } from "../pages/login-page";
+import { TasksPage } from "../pages/tasks-page";
 
 function LoginRoute() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -27,6 +30,30 @@ export function AppRouter() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customers"
+        element={
+          <ProtectedRoute>
+            <CustomersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/customers/:id"
+        element={
+          <ProtectedRoute>
+            <CustomerDetailPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tasks"
+        element={
+          <ProtectedRoute>
+            <TasksPage />
           </ProtectedRoute>
         }
       />

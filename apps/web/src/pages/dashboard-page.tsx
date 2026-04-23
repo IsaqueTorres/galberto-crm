@@ -1,53 +1,55 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import { AppLayout } from "../components/app-layout";
 import { useAuth } from "../modules/auth/use-auth";
 
 export function DashboardPage() {
-  const { logout, tenant, user } = useAuth();
+  const { tenant, user } = useAuth();
   const [firstName] = user?.name.split(" ") ?? ["Usuário"];
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-
-  async function handleLogout() {
-    setIsLoggingOut(true);
-
-    try {
-      await logout();
-    } finally {
-      setIsLoggingOut(false);
-    }
-  }
 
   return (
-    <main className="dashboard-layout">
-      <section className="dashboard-card">
-        <span className="eyebrow">Sessão ativa</span>
-        <h1>Você está autenticado</h1>
-        <p className="dashboard-lead">
-          {firstName}, seu acesso ao tenant <strong>{tenant?.name}</strong> está ativo.
-        </p>
+    <AppLayout
+      title="Início"
+      description="Acesse os fluxos principais do CRM sem camadas extras."
+    >
+      <section className="stack">
+        <section className="panel">
+          <span className="eyebrow">Sessão ativa</span>
+          <h2 className="section-title">Você está autenticado</h2>
+          <p className="dashboard-lead">
+            {firstName}, seu acesso ao tenant <strong>{tenant?.name}</strong> está ativo.
+          </p>
 
-        <dl className="dashboard-grid">
-          <div>
-            <dt>Usuário</dt>
-            <dd>{user?.name}</dd>
-          </div>
-          <div>
-            <dt>Email</dt>
-            <dd>{user?.email}</dd>
-          </div>
-          <div>
-            <dt>Tenant</dt>
-            <dd>{tenant?.name}</dd>
-          </div>
-          <div>
-            <dt>Perfil</dt>
-            <dd>{user?.role}</dd>
-          </div>
-        </dl>
+          <dl className="dashboard-grid">
+            <div>
+              <dt>Usuário</dt>
+              <dd>{user?.name}</dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd>{user?.email}</dd>
+            </div>
+            <div>
+              <dt>Tenant</dt>
+              <dd>{tenant?.name}</dd>
+            </div>
+            <div>
+              <dt>Perfil</dt>
+              <dd>{user?.role}</dd>
+            </div>
+          </dl>
+        </section>
 
-        <button type="button" className="primary-button" onClick={handleLogout} disabled={isLoggingOut}>
-          {isLoggingOut ? "Saindo..." : "Logout"}
-        </button>
+        <section className="quick-actions-grid">
+          <Link to="/customers" className="panel shortcut-card">
+            <h3>Clientes</h3>
+            <p>Cadastre, edite e abra o detalhe dos clientes.</p>
+          </Link>
+          <Link to="/tasks" className="panel shortcut-card">
+            <h3>Tarefas</h3>
+            <p>Crie tarefas operacionais e marque o que já foi concluído.</p>
+          </Link>
+        </section>
       </section>
-    </main>
+    </AppLayout>
   );
 }

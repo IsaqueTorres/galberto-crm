@@ -3,7 +3,10 @@ import { cors } from "hono/cors";
 import { sql } from "drizzle-orm";
 import { db } from "./db";
 import { authRoutes } from "./modules/auth/auth.routes";
+import { customersRoutes } from "./modules/customers/customers.routes";
+import { interactionsRoutes } from "./modules/interactions/interactions.routes";
 import { setupRoutes } from "./modules/setup/setup.routes";
+import { tasksRoutes } from "./modules/tasks/tasks.routes";
 
 export const app = new Hono();
 
@@ -11,7 +14,7 @@ app.use(
   "*",
   cors({
     origin: process.env.CORS_ORIGIN?.trim() || "http://localhost:5173",
-    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowMethods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
     allowHeaders: ["Content-Type"],
     credentials: true,
   })
@@ -47,3 +50,6 @@ app.get("/health", async (c) => {
 
 app.route("/setup", setupRoutes);
 app.route("/auth", authRoutes);
+app.route("/customers", customersRoutes);
+app.route("/customers", interactionsRoutes);
+app.route("/tasks", tasksRoutes);

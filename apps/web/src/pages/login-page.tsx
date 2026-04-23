@@ -33,44 +33,52 @@ export function LoginPage() {
 
   return (
     <main className="auth-layout">
-      <section className="auth-panel">
-        <div className="auth-copy">
-          <span className="eyebrow">Galberto CRM</span>
-          <h1>Entrar no CRM</h1>
-          <p>Use seu email corporativo e sua senha para acessar a área interna.</p>
+      <section className="auth-stage">
+        <div className="auth-brand">
+          <div className="brand-mark auth-brand-mark">G</div>
+          <span className="eyebrow">Sistema CRM</span>
+          <p className="auth-brand-copy">Base operacional sólida para clientes, interações e tarefas.</p>
         </div>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <label className="field">
-            <span>Email</span>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="admin@cliente.com"
-              autoComplete="email"
-              required
-            />
-          </label>
+        <section className="auth-panel">
+          <div className="auth-copy">
+            <span className="eyebrow">Acesso seguro</span>
+          <h1>Entrar no CRM</h1>
+          <p>Use seu email corporativo e sua senha para acessar a área interna.</p>
+          </div>
 
-          <label className="field">
-            <span>Senha</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="••••••••"
-              autoComplete="current-password"
-              required
-            />
-          </label>
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <label className="field">
+              <span>Email</span>
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="admin@cliente.com"
+                autoComplete="email"
+                required
+              />
+            </label>
 
-          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+            <label className="field">
+              <span>Senha</span>
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="••••••••"
+                autoComplete="current-password"
+                required
+              />
+            </label>
 
-          <button type="submit" className="primary-button" disabled={isSubmitting}>
-            {isSubmitting ? "Entrando..." : "Entrar"}
-          </button>
-        </form>
+            {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+
+            <button type="submit" className="primary-button" disabled={isSubmitting}>
+              {isSubmitting ? "Entrando..." : "Entrar"}
+            </button>
+          </form>
+        </section>
       </section>
     </main>
   );
