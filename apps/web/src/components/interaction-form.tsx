@@ -1,9 +1,6 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
-import type {
-  InteractionPayload,
-  InteractionType,
-} from "../modules/interactions/interactions.types";
+import type { InteractionPayload, InteractionType } from "../modules/interactions/interactions.types";
 
 type InteractionFormProps = {
   isSubmitting?: boolean;
@@ -13,10 +10,15 @@ type InteractionFormProps = {
 const interactionTypeOptions: Array<{ value: InteractionType; label: string }> = [
   { value: "note", label: "Nota" },
   { value: "call", label: "Ligação" },
-  { value: "whatsapp", label: "WhatsApp" },
+  { value: "whatsapp", label: "Mensagem" },
   { value: "email", label: "Email" },
   { value: "visit", label: "Visita" },
+  { value: "observation", label: "Observação" },
+  { value: "complaint", label: "Reclamação" },
+  { value: "negotiation", label: "Negociação" },
+  { value: "support", label: "Suporte Tecnico" },
 ];
+
 
 export function InteractionForm({
   isSubmitting = false,
@@ -41,7 +43,7 @@ export function InteractionForm({
   }
 
   return (
-    <form className="panel form-grid" onSubmit={handleSubmit}>
+    <form className="form-grid interaction-form-shell" onSubmit={handleSubmit}>
       <div className="grid-two">
         <label className="field">
           <span>Tipo</span>

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const interactionTypes = ["note", "call", "whatsapp", "email", "visit"] as const;
+const interactionTypes = ["note", "call", "whatsapp", "email", "visit", "observation", "complaint", "negotiation", "support"] as const;
 
 export const interactionParamsSchema = z.object({
   id: z.uuid("ID de cliente inválido"),

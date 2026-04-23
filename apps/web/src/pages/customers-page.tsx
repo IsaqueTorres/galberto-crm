@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AppLayout } from "../components/app-layout";
 import { CustomerForm } from "../components/customer-form";
 import {
@@ -26,7 +26,6 @@ export function CustomersPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
-  const navigate = useNavigate();
 
   async function loadCustomers(currentSearch = search) {
     setIsLoading(true);
@@ -103,12 +102,6 @@ export function CustomersPage() {
       );
     }
   }
-
-  async function handleNavigate() {
-    navigate('/new-page');
-  }
-
-
 
   return (
     <AppLayout
@@ -210,13 +203,6 @@ export function CustomersPage() {
                         </span>
                       </div>
                       <div className="inline-tags">
-                        <button
-                          type="button"
-                          className="ghost-button"
-                          onClick={() => openEditCustomerForm(customer)}
-                        >
-                          Editar
-                        </button>
                         <Link className="ghost-button" to={`/customers/${customer.id}`}>
                         Detalhes
                         </Link>

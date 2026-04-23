@@ -129,7 +129,6 @@ export function CustomerDetailPage() {
   return (
     <AppLayout
       title={customer ? customer.name : "Cliente"}
-      description="Consulte dados do cliente e registre o histórico de contato."
       actions={
         <div className="inline-actions">
           <Link to="/customers" className="ghost-button">
@@ -161,129 +160,102 @@ export function CustomerDetailPage() {
                 onCancel={() => setIsEditing(false)}
               />
             ) : (
-              <section className="panel">
-                <div className="inline-tags detail-tags">
-                  <span className="status-badge">
-                    {customer.personType === "pf" ? "Pessoa física" : "Pessoa jurídica"}
-                  </span>
-                  <span className={`status-badge customer-status-${customer.status}`}>
-                    {customerStatusLabels[customer.status]}
-                  </span>
-                  {customer.source ? <span className="status-badge">Origem: {customer.source}</span> : null}
+              <section className="customer-detail-layout">
+                <div className="customer-detail-main">
+                  <section className="panel interaction-compose-panel">
+                    <div className="interaction-compose-header">
+                      <div>
+                     
+                        <h2 className="section-title">Histórico de interações</h2>
+                      </div>
+                      <div className="interaction-counter">
+                        <strong>{interactions.length}</strong>
+                        <span>interações registradas</span>
+                      </div>
+                    </div>
+
+                    <InteractionForm
+                      isSubmitting={isSavingInteraction}
+                      onSubmit={handleCreateInteraction}
+                    />
+                  </section>
+
+                  <section className="panel interaction-feed-panel">
+                    <div className="section-heading">
+                      <h2 className="section-title">Histórico de interações</h2>
+                    </div>
+
+                    {interactions.length === 0 ? (
+                      <div className="interaction-empty-state">
+                        <strong>Nenhuma interação registrada.</strong>
+                        <p>Comece acima anotando o primeiro contato ou contexto deste cliente.</p>
+                      </div>
+                    ) : (
+                      <div className="timeline interaction-timeline">
+                        {interactions.map((interaction) => (
+                          <article key={interaction.id} className="timeline-item interaction-timeline-item">
+                            <div className="timeline-head">
+                              <strong>{interaction.subject || "Sem assunto"}</strong>
+                              <span className="status-badge">{interaction.type}</span>
+                            </div>
+                            <p>{interaction.description}</p>
+                            <small>
+                              {formatDate(interaction.interactionDate)}
+                              {interaction.createdByUserName
+                                ? ` por ${interaction.createdByUserName}`
+                                : ""}
+                            </small>
+                          </article>
+                        ))}
+                      </div>
+                    )}
+                  </section>
                 </div>
 
-                <div className="detail-grid detail-grid-strong">
-                  <div>
-                    <span className="detail-label">Nome</span>
-                    <strong>{customer.name || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Responsável</span>
-                    <strong>{customer.contactPerson || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Nome fantasia</span>
-                    <strong>{customer.tradeName || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">{customer.personType === "pf" ? "CPF" : "CNPJ"}</span>
-                    <strong>{customer.document || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">{customer.personType === "pf" ? "RG" : "IE"}</span>
-                    <strong>{customer.secondaryDocument || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Email</span>
-                    <strong>{customer.email || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Telefone</span>
-                    <strong>{customer.phone || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Ramal</span>
-                    <strong>{customer.ramal || "-"}</strong>
-                  </div>
-                </div>
+                <aside className="customer-detail-aside">
+                  <section className="panel customer-summary-panel">
+                    <div className="inline-tags detail-tags">
+                      <span className="status-badge">
+                        {customer.personType === "pf" ? "Pessoa física" : "Pessoa jurídica"}
+                      </span>
+                      <span className={`status-badge customer-status-${customer.status}`}>
+                        {customerStatusLabels[customer.status]}
+                      </span>
+                      {customer.source ? <span className="status-badge">Origem: {customer.source}</span> : null}
+                    </div>
 
-                <div className="detail-grid">
-                  <div>
-                    <span className="detail-label">CEP</span>
-                    <strong>{customer.postalCode || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Rua</span>
-                    <strong>{customer.street || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Número</span>
-                    <strong>{customer.number || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Complemento</span>
-                    <strong>{customer.complement || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Bairro</span>
-                    <strong>{customer.neighborhood || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">Cidade</span>
-                    <strong>{customer.city || "-"}</strong>
-                  </div>
-                  <div>
-                    <span className="detail-label">UF</span>
-                    <strong>{customer.state || "-"}</strong>
-                  </div>
-                </div>
+                    <div className="customer-summary-block">
+                      <strong>{customer.tradeName || customer.name}</strong>
+                      <p>{customer.contactPerson || customer.name}</p>
+                    </div>
 
-                <div className="notes-box">
-                  <span className="detail-label">Observações</span>
-                  <p>{customer.notes || "Sem observações."}</p>
-                </div>
+                    <div className="customer-mini-grid">
+                      <div>
+                        <span className="detail-label">Documento</span>
+                        <strong>{customer.document || "-"}</strong>
+                      </div>
+                      <div>
+                        <span className="detail-label">Telefone</span>
+                        <strong>{customer.phone || customer.whatsapp || "-"}</strong>
+                      </div>
+                      <div>
+                        <span className="detail-label">Email</span>
+                        <strong>{customer.email || "-"}</strong>
+                      </div>
+                      <div>
+                        <span className="detail-label">Cidade</span>
+                        <strong>{customer.city || "-"}</strong>
+                      </div>
+                    </div>
+
+                    <div className="notes-box customer-summary-notes">
+                      <span className="detail-label">Observações rápidas</span>
+                      <p>{customer.notes || "Sem observações cadastradas."}</p>
+                    </div>
+                  </section>
+                </aside>
               </section>
             )}
-
-            <section className="stack">
-              <div className="section-heading">
-                <h2 className="section-title">Nova interação</h2>
-              </div>
-              <InteractionForm
-                isSubmitting={isSavingInteraction}
-                onSubmit={handleCreateInteraction}
-              />
-            </section>
-
-            <section className="stack">
-              <div className="section-heading">
-                <h2 className="section-title">Histórico de interações</h2>
-              </div>
-
-              <section className="panel">
-                {interactions.length === 0 ? (
-                  <p>Nenhuma interação registrada para este cliente.</p>
-                ) : (
-                  <div className="timeline">
-                    {interactions.map((interaction) => (
-                      <article key={interaction.id} className="timeline-item">
-                        <div className="timeline-head">
-                          <strong>{interaction.subject || "Sem assunto"}</strong>
-                          <span className="status-badge">{interaction.type}</span>
-                        </div>
-                        <p>{interaction.description}</p>
-                        <small>
-                          {formatDate(interaction.interactionDate)}
-                          {interaction.createdByUserName
-                            ? ` por ${interaction.createdByUserName}`
-                            : ""}
-                        </small>
-                      </article>
-                    ))}
-                  </div>
-                )}
-              </section>
-            </section>
           </>
         ) : (
           <section className="panel">

@@ -1,4 +1,4 @@
-export type InteractionType = "note" | "call" | "whatsapp" | "email" | "visit";
+export type InteractionType = "note" | "call" | "whatsapp" | "email" | "visit" | "observation" | "complaint" | "negotiation" | "support";
 
 export type Interaction = {
   id: string;
