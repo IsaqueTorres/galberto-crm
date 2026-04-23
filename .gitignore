@@ -27,3 +27,6 @@ dist-ssr
 apps/api/.env
 apps/api/.env.*
 !.env.example
+
+# context
+Context-codex.md
