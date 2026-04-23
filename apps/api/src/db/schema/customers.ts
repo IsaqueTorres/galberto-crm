@@ -6,12 +6,24 @@ export const customers = pgTable("customers", {
   tenantId: uuid("tenant_id")
     .notNull()
     .references(() => tenants.id, { onDelete: "cascade" }),
+  personType: text("person_type").notNull().default("pf"),
   name: text("name").notNull(),
-  companyName: text("company_name"),
+  legalName: text("legal_name"),
+  tradeName: text("trade_name"),
   document: text("document"),
+  secondaryDocument: text("secondary_document"),
   email: text("email"),
   phone: text("phone"),
   whatsapp: text("whatsapp"),
+  postalCode: text("postal_code"),
+  street: text("street"),
+  number: text("number"),
+  complement: text("complement"),
+  neighborhood: text("neighborhood"),
+  city: text("city"),
+  state: text("state"),
+  status: text("status").notNull().default("lead"),
+  source: text("source"),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()

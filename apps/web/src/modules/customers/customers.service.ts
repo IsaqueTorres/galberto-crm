@@ -85,3 +85,14 @@ export async function updateCustomer(
   const data = (await response.json()) as { customer: Customer };
   return data.customer;
 }
+
+export async function deleteCustomer(id: string): Promise<void> {
+  const response = await apiFetch(`/customers/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw await readError(response, "Não foi possível excluir o cliente.");
+  }
+}

@@ -14,7 +14,7 @@ export function AppLayout({
   actions,
   children,
 }: AppLayoutProps) {
-  const { logout, tenant } = useAuth();
+  const { logout, tenant, user } = useAuth();
 
   return (
     <div className="workspace-layout">
@@ -23,24 +23,35 @@ export function AppLayout({
           <div className="brand-block">
             <div className="brand-mark">G</div>
             <div>
-              <span className="eyebrow">Galberto CRM</span>
-              <h2 className="sidebar-title">{tenant?.name}</h2>
-              <p className="sidebar-copy">Operação comercial e atendimento em um fluxo direto.</p>
+              <h2 className="sidebar-title">Galberto</h2>
+              <p className="sidebar-copy">{tenant?.name}</p>
             </div>
           </div>
-        </div>
 
-        <nav className="sidebar-nav">
-          <NavLink to="/" end className="sidebar-link">
-            Início
-          </NavLink>
-          <NavLink to="/customers" className="sidebar-link">
-            Clientes
-          </NavLink>
-          <NavLink to="/tasks" className="sidebar-link">
-            Tarefas
-          </NavLink>
-        </nav>
+          <div className="sidebar-section">
+            <span className="sidebar-section-label">Principal</span>
+            <nav className="sidebar-nav">
+              <NavLink to="/" end className="sidebar-link">
+                <span className="sidebar-link-mark" />
+                Início
+              </NavLink>
+            </nav>
+          </div>
+
+          <div className="sidebar-section">
+            <span className="sidebar-section-label">Gestão</span>
+            <nav className="sidebar-nav">
+              <NavLink to="/customers" className="sidebar-link">
+                <span className="sidebar-link-mark" />
+                Clientes
+              </NavLink>
+              <NavLink to="/tasks" className="sidebar-link">
+                <span className="sidebar-link-mark" />
+                Tarefas
+              </NavLink>
+            </nav>
+          </div>
+        </div>
 
         <div className="sidebar-footer">
           <p className="sidebar-helper">Sessão ativa para o tenant atual.</p>
@@ -51,6 +62,11 @@ export function AppLayout({
       </aside>
 
       <main className="workspace-main">
+        <div className="workspace-topbar">
+          <div className="topbar-chip">Tenant: {tenant?.slug || tenant?.name}</div>
+          <div className="topbar-chip topbar-chip-secondary">Operador: {user?.name}</div>
+        </div>
+
         <header className="page-header">
           <div>
             <h1 className="page-title">{title}</h1>

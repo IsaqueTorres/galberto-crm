@@ -1,4 +1,4 @@
-import { and, desc, eq, ilike, or } from "drizzle-orm";
+import { and, eq, ilike, or } from "drizzle-orm";
 import { Hono } from "hono";
 import { db } from "../../db";
 import { customers } from "../../db/schema";
@@ -39,8 +39,11 @@ customersRoutes.get("/", async (c) => {
         search
           ? or(
               ilike(table.name, `%${search}%`),
+              ilike(table.legalName, `%${search}%`),
+              ilike(table.tradeName, `%${search}%`),
               ilike(table.document, `%${search}%`),
-              ilike(table.phone, `%${search}%`)
+              ilike(table.phone, `%${search}%`),
+              ilike(table.whatsapp, `%${search}%`)
             )
           : undefined
       ),
@@ -166,6 +169,50 @@ customersRoutes.put("/:id", async (c) => {
     return c.json(
       {
         message: "Erro interno ao atualizar cliente",
+      },
+      500
+    );
+  }
+});
+
+customersRoutes.delete("/:id", async (c) => {
+  try {
+    const authUser = c.get("authUser");
+    const parsedParams = customerParamsSchema.safeParse(c.req.param());
+
+    if (!parsedParams.success) {
+      return c.json(
+        {
+          message: "Parâmetros inválidos",
+          errors: parsedParams.error.flatten(),
+        },
+        400
+      );
+    }
+
+    const deletedCustomers = await db
+      .delete(customers)
+      .where(
+        and(
+          eq(customers.id, parsedParams.data.id),
+          eq(customers.tenantId, authUser.tenantId)
+        )
+      )
+      .returning({
+        id: customers.id,
+      });
+
+    if (deletedCustomers.length === 0) {
+      return c.json({ message: "Cliente não encontrado" }, 404);
+    }
+
+    return c.json({ success: true });
+  } catch (error) {
+    console.error("Erro ao excluir cliente:", error);
+
+    return c.json(
+      {
+        message: "Erro interno ao excluir cliente",
       },
       500
     );

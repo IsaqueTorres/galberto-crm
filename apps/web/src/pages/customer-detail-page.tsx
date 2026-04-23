@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../components/app-layout";
 import { CustomerForm } from "../components/customer-form";
 import { InteractionForm } from "../components/interaction-form";
-import { getCustomer, updateCustomer } from "../modules/customers/customers.service";
+import {
+  deleteCustomer,
+  getCustomer,
+  updateCustomer,
+} from "../modules/customers/customers.service";
 import type { Customer, CustomerPayload } from "../modules/customers/customers.types";
 import {
   createInteraction,
@@ -21,7 +25,14 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+const customerStatusLabels = {
+  lead: "Lead",
+  active: "Ativo",
+  inactive: "Inativo",
+} as const;
+
 export function CustomerDetailPage() {
+  const navigate = useNavigate();
   const { id = "" } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [interactions, setInteractions] = useState<Interaction[]>([]);
@@ -90,6 +101,31 @@ export function CustomerDetailPage() {
     }
   }
 
+  async function handleDeleteCustomer() {
+    if (!customer) {
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Excluir o cliente "${customer.tradeName || customer.name}"? Esta ação remove também as interações vinculadas.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setErrorMessage("");
+
+    try {
+      await deleteCustomer(customer.id);
+      navigate("/customers", { replace: true });
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "Não foi possível excluir o cliente."
+      );
+    }
+  }
+
   return (
     <AppLayout
       title={customer ? customer.name : "Cliente"}
@@ -121,18 +157,41 @@ export function CustomerDetailPage() {
                 initialData={customer}
                 isSubmitting={isSavingCustomer}
                 onSubmit={handleSaveCustomer}
+                onDelete={handleDeleteCustomer}
                 onCancel={() => setIsEditing(false)}
               />
             ) : (
               <section className="panel">
-                <div className="detail-grid">
+                <div className="inline-tags detail-tags">
+                  <span className="status-badge">
+                    {customer.personType === "pf" ? "Pessoa física" : "Pessoa jurídica"}
+                  </span>
+                  <span className={`status-badge customer-status-${customer.status}`}>
+                    {customerStatusLabels[customer.status]}
+                  </span>
+                  {customer.source ? <span className="status-badge">Origem: {customer.source}</span> : null}
+                </div>
+
+                <div className="detail-grid detail-grid-strong">
                   <div>
-                    <span className="detail-label">Empresa</span>
-                    <strong>{customer.companyName || "-"}</strong>
+                    <span className="detail-label">Nome principal</span>
+                    <strong>{customer.name || "-"}</strong>
                   </div>
                   <div>
-                    <span className="detail-label">Documento</span>
+                    <span className="detail-label">Razão social</span>
+                    <strong>{customer.legalName || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Nome fantasia</span>
+                    <strong>{customer.tradeName || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">{customer.personType === "pf" ? "CPF" : "CNPJ"}</span>
                     <strong>{customer.document || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">{customer.personType === "pf" ? "RG" : "IE"}</span>
+                    <strong>{customer.secondaryDocument || "-"}</strong>
                   </div>
                   <div>
                     <span className="detail-label">Email</span>
@@ -145,6 +204,37 @@ export function CustomerDetailPage() {
                   <div>
                     <span className="detail-label">WhatsApp</span>
                     <strong>{customer.whatsapp || "-"}</strong>
+                  </div>
+                </div>
+
+                <div className="detail-grid">
+                  <div>
+                    <span className="detail-label">CEP</span>
+                    <strong>{customer.postalCode || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Rua</span>
+                    <strong>{customer.street || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Número</span>
+                    <strong>{customer.number || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Complemento</span>
+                    <strong>{customer.complement || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Bairro</span>
+                    <strong>{customer.neighborhood || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">Cidade</span>
+                    <strong>{customer.city || "-"}</strong>
+                  </div>
+                  <div>
+                    <span className="detail-label">UF</span>
+                    <strong>{customer.state || "-"}</strong>
                   </div>
                 </div>
 

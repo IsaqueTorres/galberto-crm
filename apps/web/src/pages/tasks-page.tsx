@@ -183,10 +183,21 @@ export function TasksPage() {
           ) : (
             <div className="list-grid">
               {tasks.map((task) => (
-                <article key={task.id} className="list-card">
+                <article
+                  key={task.id}
+                  className={`list-card ${
+                    task.status === "completed"
+                      ? "list-card-success"
+                      : task.status === "in_progress"
+                        ? "list-card-info"
+                        : "list-card-warning"
+                  }`}
+                >
                   <div className="timeline-head">
                     <h3>{task.title}</h3>
-                    <span className="status-badge">{statusLabels[task.status]}</span>
+                    <span className={`status-badge status-badge-${task.status.replace("_", "-")}`}>
+                      {statusLabels[task.status]}
+                    </span>
                   </div>
 
                   <p>{task.description || "Sem descrição."}</p>

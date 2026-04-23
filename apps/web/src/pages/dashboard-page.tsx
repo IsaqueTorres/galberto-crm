@@ -12,7 +12,7 @@ export function DashboardPage() {
       description="Acesse os fluxos principais do CRM sem camadas extras."
     >
       <section className="stack">
-        <section className="panel">
+        <section className="panel panel-hero">
           <span className="eyebrow">Sessão ativa</span>
           <h2 className="section-title">Você está autenticado</h2>
           <p className="dashboard-lead">
@@ -40,11 +40,11 @@ export function DashboardPage() {
         </section>
 
         <section className="quick-actions-grid">
-          <Link to="/customers" className="panel shortcut-card">
+          <Link to="/customers" className="panel shortcut-card shortcut-card-blue">
             <h3>Clientes</h3>
             <p>Cadastre, edite e abra o detalhe dos clientes.</p>
           </Link>
-          <Link to="/tasks" className="panel shortcut-card">
+          <Link to="/tasks" className="panel shortcut-card shortcut-card-cyan">
             <h3>Tarefas</h3>
             <p>Crie tarefas operacionais e marque o que já foi concluído.</p>
           </Link>
