@@ -1,0 +1,17 @@
+{
+  "name": "galberto-crm",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:web": "pnpm --filter @galberto-crm/web dev",
+    "dev:api": "pnpm --filter @galberto-crm/api dev",
+    "build:web": "pnpm --filter @galberto-crm/web build",
+    "build:api": "pnpm --filter @galberto-crm/api build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2"
+}
