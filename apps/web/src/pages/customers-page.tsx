@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppLayout } from "../components/app-layout";
 import { CustomerForm } from "../components/customer-form";
 import {
@@ -26,6 +26,7 @@ export function CustomersPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
+  const navigate = useNavigate();
 
   async function loadCustomers(currentSearch = search) {
     setIsLoading(true);
@@ -102,6 +103,12 @@ export function CustomersPage() {
       );
     }
   }
+
+  async function handleNavigate() {
+    navigate('/new-page');
+  }
+
+
 
   return (
     <AppLayout
@@ -187,7 +194,7 @@ export function CustomersPage() {
                     <article key={customer.id} className="customers-table-row">
                       <div>
                         <strong>{customer.tradeName || customer.name}</strong>
-                        <small>{customer.legalName || customer.name}</small>
+                        <small>{customer.contactPerson || customer.name}</small>
                       </div>
                       <div>{customer.document || "-"}</div>
                       <div>
@@ -202,7 +209,7 @@ export function CustomersPage() {
                           {customerStatusLabels[customer.status]}
                         </span>
                       </div>
-                      <div className="customers-row-action">
+                      <div className="inline-tags">
                         <button
                           type="button"
                           className="ghost-button"
@@ -210,8 +217,8 @@ export function CustomersPage() {
                         >
                           Editar
                         </button>
-                        <Link className="customers-link" to={`/customers/${customer.id}`}>
-                          Detalhes
+                        <Link className="ghost-button" to={`/customers/${customer.id}`}>
+                        Detalhes
                         </Link>
                       </div>
                     </article>
@@ -228,10 +235,10 @@ export function CustomersPage() {
             onDelete={
               editingCustomer
                 ? async () => {
-                    await handleDeleteCustomer(editingCustomer);
-                    setEditingCustomer(null);
-                    setActiveTab("list");
-                  }
+                  await handleDeleteCustomer(editingCustomer);
+                  setEditingCustomer(null);
+                  setActiveTab("list");
+                }
                 : undefined
             }
             onCancel={() => {

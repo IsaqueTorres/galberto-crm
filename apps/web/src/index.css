@@ -295,6 +295,118 @@ dt {
   font-size: 1.05rem;
 }
 
+.dashboard-shell {
+  display: grid;
+  gap: 28px;
+}
+
+.welcome-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.welcome-summary-card {
+  display: grid;
+  gap: 8px;
+  padding: 20px 20px 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(61, 126, 255, 0.18);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  box-shadow: 0 10px 22px rgba(40, 73, 147, 0.08);
+}
+
+.welcome-summary-card h2 {
+  font-size: 1.2rem;
+  color: #223764;
+}
+
+.welcome-summary-card p {
+  color: #40619d;
+}
+
+.welcome-summary-card-blue {
+  border-color: rgba(63, 124, 255, 0.28);
+}
+
+.welcome-summary-card-green {
+  border-color: rgba(57, 214, 165, 0.28);
+  background:
+    radial-gradient(circle at top right, rgba(79, 233, 182, 0.16), transparent 45%),
+    linear-gradient(180deg, #ffffff 0%, #f5fff9 100%);
+}
+
+.welcome-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.welcome-module-card {
+  min-height: 210px;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 24px 24px 22px;
+  border-radius: 26px;
+  text-decoration: none;
+  border: 1px solid rgba(41, 96, 255, 0.18);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  box-shadow: 0 12px 24px rgba(28, 56, 124, 0.08);
+}
+
+.welcome-module-card h3 {
+  font-size: 1.38rem;
+  color: #223764;
+}
+
+.welcome-module-card p {
+  color: #47649b;
+}
+
+.welcome-module-icon {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 14px 24px rgba(18, 48, 121, 0.18);
+}
+
+.welcome-module-card-green {
+  border-color: rgba(61, 233, 184, 0.35);
+  background:
+    radial-gradient(circle at top left, rgba(89, 236, 190, 0.12), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f6fff9 100%);
+}
+
+.welcome-module-card-green .welcome-module-icon {
+  background: linear-gradient(180deg, #0da56f 0%, #07885b 100%);
+}
+
+.welcome-module-card-blue {
+  border-color: rgba(63, 124, 255, 0.3);
+}
+
+.welcome-module-card-blue .welcome-module-icon {
+  background: linear-gradient(180deg, #2f68ff 0%, #1d51de 100%);
+}
+
+.welcome-module-card-dark .welcome-module-icon {
+  background: linear-gradient(180deg, #273977 0%, #1c2857 100%);
+}
+
+.welcome-module-card-amber {
+  border-color: rgba(255, 190, 61, 0.38);
+}
+
+.welcome-module-card-amber .welcome-module-icon {
+  background: linear-gradient(180deg, #ffac19 0%, #f49000 100%);
+}
+
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -613,12 +725,12 @@ dd {
   color: #7183a8;
 }
 
-.customers-row-action {
+/* .customers-row-action {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-}
+} */
 
 .customers-link {
   color: #0c7f58;
@@ -958,7 +1070,9 @@ dd {
   .customers-search-grid,
   .customers-table-head,
   .customers-table-row,
-  .customer-form-grid {
+  .customer-form-grid,
+  .welcome-summary-grid,
+  .welcome-modules-grid {
     grid-template-columns: 1fr;
   }
 

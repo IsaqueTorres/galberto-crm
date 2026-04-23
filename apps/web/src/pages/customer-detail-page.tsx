@@ -174,12 +174,12 @@ export function CustomerDetailPage() {
 
                 <div className="detail-grid detail-grid-strong">
                   <div>
-                    <span className="detail-label">Nome principal</span>
+                    <span className="detail-label">Nome</span>
                     <strong>{customer.name || "-"}</strong>
                   </div>
                   <div>
-                    <span className="detail-label">Razão social</span>
-                    <strong>{customer.legalName || "-"}</strong>
+                    <span className="detail-label">Responsável</span>
+                    <strong>{customer.contactPerson || "-"}</strong>
                   </div>
                   <div>
                     <span className="detail-label">Nome fantasia</span>
@@ -202,8 +202,8 @@ export function CustomerDetailPage() {
                     <strong>{customer.phone || "-"}</strong>
                   </div>
                   <div>
-                    <span className="detail-label">WhatsApp</span>
-                    <strong>{customer.whatsapp || "-"}</strong>
+                    <span className="detail-label">Ramal</span>
+                    <strong>{customer.ramal || "-"}</strong>
                   </div>
                 </div>
 

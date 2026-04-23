@@ -19,7 +19,7 @@ export function CustomerForm({
 }: CustomerFormProps) {
   const [personType, setPersonType] = useState<"pf" | "pj">(initialData?.personType ?? "pf");
   const [name, setName] = useState(initialData?.name ?? "");
-  const [legalName, setLegalName] = useState(initialData?.legalName ?? "");
+  const [contactPerson, setContactPerson] = useState(initialData?.contactPerson ?? "");
   const [tradeName, setTradeName] = useState(initialData?.tradeName ?? "");
   const [document, setDocument] = useState(initialData?.document ?? "");
   const [secondaryDocument, setSecondaryDocument] = useState(
@@ -47,7 +47,7 @@ export function CustomerForm({
     await onSubmit({
       personType,
       name,
-      legalName,
+      contactPerson,
       tradeName,
       document,
       secondaryDocument,
@@ -164,7 +164,7 @@ export function CustomerForm({
  {personType === "pj" ? (
             <label className="field">
               <span>Nome do contato</span>
-              <input value={legalName} onChange={(event) => setLegalName(event.target.value)} />
+              <input value={contactPerson} onChange={(event) => setContactPerson(event.target.value)} />
             </label>
           ) : null}
         </section>

@@ -3,7 +3,7 @@ export type Customer = {
   tenantId: string;
   personType: "pf" | "pj";
   name: string;
-  legalName: string | null;
+  contactPerson: string | null;
   tradeName: string | null;
   document: string | null;
   secondaryDocument: string | null;
@@ -28,7 +28,7 @@ export type Customer = {
 export type CustomerPayload = {
   personType: "pf" | "pj";
   name: string;
-  legalName?: string;
+  contactPerson?: string;
   tradeName?: string;
   document?: string;
   secondaryDocument?: string;
